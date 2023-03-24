@@ -1,0 +1,21 @@
+{
+  "mod_id": "uitk_test_mod",
+  "author": "munix",
+  "name": "UITK Test Mod",
+  "description": "",
+  "source": "",
+  "version": "0.1.0",
+  "dependencies": [
+    {
+      "id":  "SpaceWarp",
+      "version": {
+        "min": "0.4.0",
+        "max": "*"
+      }
+    }
+  ],
+  "ksp2_version": {
+    "min": "0.1.0",
+    "max": "*"
+  }
+}
