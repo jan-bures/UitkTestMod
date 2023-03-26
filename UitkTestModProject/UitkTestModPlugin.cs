@@ -1,7 +1,7 @@
 ﻿using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
-using KSP2UITK;
+using Ksp2Uitk;
 using SpaceWarp;
 using SpaceWarp.API.Assets;
 using SpaceWarp.API.Mods;
@@ -36,7 +36,6 @@ public class UitkTestModPlugin : BaseSpaceWarpPlugin
         
         // CreateDynamicGUI();
         CreateUxmlGUI();
-        // CreateBuilderPrefabGUI();
         // CreatePrefabGUI();
 
         Logger.LogInfo($"{ModName} is initialized.");
@@ -44,32 +43,18 @@ public class UitkTestModPlugin : BaseSpaceWarpPlugin
 
     private void CreateDynamicGUI()
     {
-        /*
-         The UXML we're trying to recreate (from https://docs.unity3d.com/Manual/UIE-get-started-with-runtime-ui.html):
-         
-<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements"
-        xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements"
-        noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <ui:VisualElement style="flex-grow: 1;">
-        <ui:Label text="This is a Label" display-tooltip-when-elided="true"/>
-        <ui:Button text="This is a Button" display-tooltip-when-elided="true" name="button"/>
-        <ui:Toggle label="Display the counter?" name="toggle"/>
-        <ui:TextField picking-mode="Ignore" label="Text Field" text="filler text" name="input-message" />
-    </ui:VisualElement>
-</ui:UXML>
-         */
-
         // Create an object with a UIDocument component
         var go = new GameObject("My UI object");
         var doc = go.AddComponent<UIDocument>();
 
         // Add VisualElements to the UIDocument
+        doc.rootVisualElement.Set(_class: "root");
         doc.rootVisualElement.Set(flexGrow: 1);
         var ve = new VisualElement[]
         {
             new Label().Set(text: "This is a Label"),
             new Button().Set(text: "This is a button").Set(name: "button"),
-            new Toggle("Displaying the counter?").Set(name: "toggle"),
+            new Toggle("Displaying the counter?").Set(name: "toggle", "toggle"),
             new TextField("Text Field").Set(name: "input-message").AssignTo(out var tf)
         };
         tf.pickingMode = PickingMode.Ignore;
@@ -80,7 +65,7 @@ public class UitkTestModPlugin : BaseSpaceWarpPlugin
         }
 
         // Add PanelSettings to the UIDocument component
-        doc.panelSettings = KSP2UITKPlugin.PanelSettings;
+        doc.panelSettings = Ksp2UitkPlugin.PanelSettings;
 
         // Enable the UIDocument
         doc.AddRootVisualElementToTree();
@@ -96,28 +81,16 @@ public class UitkTestModPlugin : BaseSpaceWarpPlugin
         var go = new GameObject("My UXML object");
         var doc = go.AddComponent<UIDocument>();
 
-        var uxml = AssetManager.GetAsset<VisualTreeAsset>($"{SpaceWarpMetadata.ModID}/uxml/mydoctemplate.uxml");
+        var uxml = AssetManager.GetAsset<VisualTreeAsset>($"{SpaceWarpMetadata.ModID}/uxml/testingdocument.uxml");
         doc.sourceAsset = uxml;
 
-        doc.panelSettings = KSP2UITKPlugin.PanelSettings;
+        doc.panelSettings = Ksp2UitkPlugin.PanelSettings;
 
         doc.RecreateUI();
         doc.enabled = true;
 
         go.transform.parent = transform;
         go.SetActive(true);
-    }
-
-    private void CreateBuilderPrefabGUI()
-    {
-        var prefab = AssetManager.GetAsset<GameObject>($"{SpaceWarpMetadata.ModID}/builder_prefab/builderdoc.prefab");
-        var doc = prefab.GetComponent<UIDocument>();
-
-        doc.RecreateUI();
-        doc.enabled = true;
-
-        prefab.transform.parent = transform;
-        prefab.SetActive(true);
     }
 
     private void CreatePrefabGUI()

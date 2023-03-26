@@ -21,8 +21,8 @@
             <Publicize>true</Publicize>
             <Private>false</Private>
         </Reference>
-        <Reference Include="com.github.jan-bures.KSP2UITK">
-            <HintPath>..\..\KSP2UITK\Debug\BepInEx\plugins\ksp2_uitk\ksp2_uitk.dll</HintPath>
+        <Reference Include="com.github.jan-bures.Ksp2Uitk">
+            <HintPath>..\external_dlls\ksp2_uitk.dll</HintPath>
             <Publicize>true</Publicize>
             <Private>false</Private>
         </Reference>
