@@ -49,7 +49,7 @@ public class UitkTestModPlugin : BaseSpaceWarpPlugin
         root.style.flexGrow = 1;
         root.AddChildren(new VisualElement[]
         {
-            Element.Label("This is a Label"),
+            Element.Label(text: "This is a Label"),
             Element.Button("button", "This is a button"),
             Element.Toggle("toggle", "Displaying the counter?"),
             Element.TextField("input-message", "This is a text field").Set("label", "Text Field")
