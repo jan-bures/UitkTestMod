@@ -21,10 +21,8 @@
             <Publicize>true</Publicize>
             <Private>false</Private>
         </Reference>
-        <Reference Include="com.github.jan-bures.Ksp2Uitk">
-            <HintPath>..\external_dlls\ksp2_uitk.dll</HintPath>
-            <Publicize>true</Publicize>
-            <Private>false</Private>
+        <Reference Include="com.github.jan-bures.ksp2uitk">
+          <HintPath>..\external_dlls\ksp2_uitk.dll</HintPath>
         </Reference>
         <Reference Include="UnityEngine">
             <HintPath>..\external_dlls\UnityEngine.dll</HintPath>

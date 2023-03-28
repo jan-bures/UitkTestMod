@@ -1,12 +1,15 @@
 ﻿using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
-using Ksp2Uitk;
+using Ksp2Uitk.API;
 using SpaceWarp;
 using SpaceWarp.API.Assets;
 using SpaceWarp.API.Mods;
-using UnityEngine;
 using UnityEngine.UIElements;
+
+// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable UnusedMember.Local
+// ReSharper disable UnusedMember.Global
 
 namespace UitkTestMod;
 
@@ -33,75 +36,31 @@ public class UitkTestModPlugin : BaseSpaceWarpPlugin
 
         Instance = this;
         Logger = base.Logger;
-        
-        // CreateDynamicGUI();
-        CreateUxmlGUI();
-        // CreatePrefabGUI();
+
+        CreateDynamicGUI();
+        // CreateUxmlGUI();
 
         Logger.LogInfo($"{ModName} is initialized.");
     }
 
-    private void CreateDynamicGUI()
+    private static void CreateDynamicGUI()
     {
-        // Create an object with a UIDocument component
-        var go = new GameObject("My UI object");
-        var doc = go.AddComponent<UIDocument>();
-
-        // Add VisualElements to the UIDocument
-        doc.rootVisualElement.Set(_class: "root");
-        doc.rootVisualElement.Set(flexGrow: 1);
-        var ve = new VisualElement[]
+        var root = Element.Root();
+        root.style.flexGrow = 1;
+        root.AddChildren(new VisualElement[]
         {
-            new Label().Set(text: "This is a Label"),
-            new Button().Set(text: "This is a button").Set(name: "button"),
-            new Toggle("Displaying the counter?").Set(name: "toggle", "toggle"),
-            new TextField("Text Field").Set(name: "input-message").AssignTo(out var tf)
-        };
-        tf.pickingMode = PickingMode.Ignore;
-        tf.value = "filler text";
-        foreach (var element in ve)
-        {
-            doc.rootVisualElement.Add(element);
-        }
+            Element.Label("This is a Label"),
+            Element.Button("button", "This is a button"),
+            Element.Toggle("toggle", "Displaying the counter?"),
+            Element.TextField("input-message", "This is a text field").Set("label", "Text Field")
+        });
 
-        // Add PanelSettings to the UIDocument component
-        doc.panelSettings = Ksp2UitkPlugin.PanelSettings;
-
-        // Enable the UIDocument
-        doc.AddRootVisualElementToTree();
-        doc.enabled = true;
-
-        // Place and activate the object
-        go.transform.parent = transform;
-        go.SetActive(true);
+        var window = Window.CreateFromElement(root);
     }
 
     private void CreateUxmlGUI()
     {
-        var go = new GameObject("My UXML object");
-        var doc = go.AddComponent<UIDocument>();
-
         var uxml = AssetManager.GetAsset<VisualTreeAsset>($"{SpaceWarpMetadata.ModID}/uxml/testingdocument.uxml");
-        doc.sourceAsset = uxml;
-
-        doc.panelSettings = Ksp2UitkPlugin.PanelSettings;
-
-        doc.RecreateUI();
-        doc.enabled = true;
-
-        go.transform.parent = transform;
-        go.SetActive(true);
-    }
-
-    private void CreatePrefabGUI()
-    {
-        var prefab = AssetManager.GetAsset<GameObject>($"{SpaceWarpMetadata.ModID}/prefab/mydocgo.prefab");
-        var doc = prefab.GetComponent<UIDocument>();
-
-        doc.RecreateUI();
-        doc.enabled = true;
-
-        prefab.transform.parent = transform;
-        prefab.SetActive(true);
+        var window = Window.CreateFromUxml(uxml);
     }
 }
