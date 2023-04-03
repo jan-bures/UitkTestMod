@@ -8,69 +8,17 @@
         <AssemblyName>com.github.jan-bures.UitkTestMod</AssemblyName>
         <Product>UITK Test Mod</Product>
         <Version>0.1.1</Version>
-        <RestoreAdditionalProjectSources>
-            https://api.nuget.org/v3/index.json;
-            https://nuget.bepinex.dev/v3/index.json
-        </RestoreAdditionalProjectSources>
+    <RestoreAdditionalProjectSources>
+        https://api.nuget.org/v3/index.json;
+        https://nuget.bepinex.dev/v3/index.json;
+        https://nuget.spacewarp.org/v3/index.json
+    </RestoreAdditionalProjectSources>
         <RootNamespace>UitkTestMod</RootNamespace>
         <ModId Condition="'$(ModId)'==''">uitk_test_mod</ModId>
     </PropertyGroup>
     <ItemGroup>
         <Reference Include="Assembly-CSharp">
             <HintPath>..\external_dlls\Assembly-CSharp.dll</HintPath>
-            <Publicize>true</Publicize>
-            <Private>false</Private>
-        </Reference>
-        <Reference Include="com.github.jan-bures.ksp2uitk">
-          <HintPath>..\external_dlls\ksp2_uitk.dll</HintPath>
-        </Reference>
-        <Reference Include="UnityEngine">
-            <HintPath>..\external_dlls\UnityEngine.dll</HintPath>
-            <Publicize>true</Publicize>
-            <Private>false</Private>
-        </Reference>
-        <Reference Include="UnityEngine.AssetBundleModule">
-            <HintPath>..\external_dlls\UnityEngine.AssetBundleModule.dll</HintPath>
-            <Publicize>true</Publicize>
-            <Private>false</Private>
-        </Reference>
-        <Reference Include="UnityEngine.CoreModule">
-            <HintPath>..\external_dlls\UnityEngine.CoreModule.dll</HintPath>
-            <Publicize>true</Publicize>
-            <Private>false</Private>
-        </Reference>
-        <Reference Include="UnityEngine.IMGUIModule">
-            <HintPath>..\external_dlls\UnityEngine.IMGUIModule.dll</HintPath>
-            <Publicize>true</Publicize>
-            <Private>false</Private>
-        </Reference>
-        <Reference Include="UnityEngine.TextCoreTextEngineModule">
-            <HintPath>..\external_dlls\UnityEngine.TextCoreTextEngineModule.dll</HintPath>
-            <Publicize>true</Publicize>
-            <Private>false</Private>
-        </Reference>
-        <Reference Include="UnityEngine.UI">
-            <HintPath>..\external_dlls\UnityEngine.UI.dll</HintPath>
-            <Publicize>true</Publicize>
-            <Private>false</Private>
-        </Reference>
-        <Reference Include="UnityEngine.UIElementsInputSystemModule">
-            <HintPath>..\external_dlls\UnityEngine.UIElementsInputSystemModule.dll</HintPath>
-            <Publicize>true</Publicize>
-            <Private>false</Private>
-        </Reference>
-        <Reference Include="UnityEngine.UIElementsModule">
-            <HintPath>..\external_dlls\UnityEngine.UIElementsModule.dll</HintPath>
-            <Publicize>true</Publicize>
-            <Private>false</Private>
-        </Reference>
-        <Reference Include="UnityEngine.UIElementsNativeModule">
-            <HintPath>..\external_dlls\UnityEngine.UIElementsNativeModule.dll</HintPath>
-            <Publicize>true</Publicize>
-            <Private>false</Private>
-        </Reference>
-        <Reference Include="UnityEngine.UIModule">
-            <HintPath>..\external_dlls\UnityEngine.UIModule.dll</HintPath>
             <Publicize>true</Publicize>
             <Private>false</Private>
         </Reference>
@@ -81,7 +29,10 @@
         <PackageReference Include="BepInEx.Core" Version="5.*" />
         <PackageReference Include="BepInEx.PluginInfoProps" Version="2.*" />
         <PackageReference Include="HarmonyX" Version="2.10.1" />
-        <PackageReference Include="SpaceWarp" Version="0.4.0" />
+        <PackageReference Include="SpaceWarp" Version="1.0.1" />
+        <PackageReference Include="UnityEngine.Modules" Version="2020.3.33" />
+        <PackageReference Include="UnityEngine.UITK" Version="2020.3.33" />
+        <PackageReference Include="Ksp2Uitk" Version="0.2.0" />
     </ItemGroup>
     <Target Name="PostBuild" AfterTargets="PostBuildEvent">
         <Exec Command="echo d | xcopy /y /s &quot;$(ProjectDir)..\$(ModId)\&quot; &quot;$(ProjectDir)..\$(ConfigurationName)\BepInEx\plugins\$(ModId)\&quot;&#xA;echo f | xcopy /y &quot;$(TargetPath)&quot; &quot;$(ProjectDir)..\$(ConfigurationName)\BepInEx\plugins\$(ModId)\$(ModId).dll&quot;&#xA;if $(ConfigurationName) == Debug echo f | xcopy /y &quot;$(TargetDir)$(TargetName).pdb&quot; &quot;$(ProjectDir)..\$(ConfigurationName)\BepInEx\plugins\$(ModId)\$(ModId).pdb&quot;&#xA;xcopy /y &quot;$(ProjectDir)..\LICENSE&quot; &quot;$(ProjectDir)..\$(ConfigurationName)\BepInEx\plugins\$(ModId)\&quot;&#xA;echo f | xcopy /y &quot;$(ProjectDir)..\README.md&quot; &quot;$(ProjectDir)..\$(ConfigurationName)\BepInEx\plugins\$(ModId)\README.txt&quot;" />
